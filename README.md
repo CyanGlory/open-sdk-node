@@ -7,21 +7,25 @@ YouzanYun SDK
 [![Build Status](https://travis-ci.org/youzan/open-sdk-node.png)](https://travis-ci.org/youzan/open-sdk-node)
 [![Coverage Status](https://coveralls.io/repos/github/youzan/open-sdk-node/badge.svg?branch=master)](https://coveralls.io/github/youzan/open-sdk-node?branch=master)
 
-YouzanYun SDK for Node.  
+## 介绍
 
-## Install
+使用 javaScript 调用 [有赞云](https://doc.youzanyun.com/doc#/content/27027/27193) 接口。
+
+## 安装
+
+使用 npm 进行安装。
 
 ```bash
 npm i youzanyun-sdk --save
 ```
 
-## Usage
+## 使用
 
-可参考 [examples](examples)  
+示例代码可参考 [examples](examples)  
 
-### 1. 获取及刷新access_token
+### 1. 获取及刷新 access_token
 
-#### 工具型应用 获取access_token
+#### 1.1 工具型应用 获取 access_token
 
 ```node
 const youzanyun = require('youzanyun-sdk');
@@ -36,7 +40,7 @@ const resp = youzanyun.token.get({
 });
 ```
 
-#### 自用型应用 获取access_token
+#### 1.2 自用型应用 获取 access_token
 
 ```node
 const youzanyun = require('youzanyun-sdk');
@@ -50,7 +54,7 @@ const resp = youzanyun.token.get({
 });
 ```
 
-#### 工具型应用及自用型应用 刷新access_token
+#### 1.3 工具型应用及自用型应用 刷新access_token
 
 ```node
 const youzanyun = require('youzanyun-sdk');
@@ -64,9 +68,37 @@ const resp = youzanyun.token.get({
 });
 ```
 
+#### 1.4 符合 ES6 规范的写法
+
+以自用型无容器应用获取 token 为例
+
+```node
+const youzanyun = require('youzanyun-sdk');
+
+async function getTokenAndPrint() {
+    try {
+        let data = await youzanyun.token.get({
+            authorize_type: 'silent',
+            client_id: 'YOUR_CLIENT_ID', // 客户端编号, 可以在有赞云-控制台-应用-应用概况-应用信息, 位置获取
+            client_secret: 'YOUR_CLIENT_SECRET', // // 客户端密钥, 可以在有赞云-控制台-应用-应用概况-应用信息, 位置获取
+            grant_id: 110, // 店铺ID, 可以在有赞云-控制台-应用-应用概况-授权信息, 位置获取
+            refresh: true, // 是否获取refresh_token(可通过refresh_token刷新token)
+          }).data;
+        const token = data.data.access_token;
+        console.log(token);
+        
+    } catch (error) {
+        console.log('error: ', error);
+        
+    }
+}
+
+getTokenAndPrint();
+```
+
 ### 2. 接口调用
 
-#### Token方式
+#### 2.1 Token方式
 
 ```node
 const youzanyun = require('youzanyun-sdk');
@@ -82,7 +114,7 @@ const resp = youzanyun.client.call({
 });
 ```
 
-#### 文件上传
+#### 2.2 文件上传
 
 ```node
 const youzanyun = require('youzanyun-sdk');
